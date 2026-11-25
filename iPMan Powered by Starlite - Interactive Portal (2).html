@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iPMan Powered by Starlite - Ultra Fast 2 Gbps Fiber Broadband</title>
+
+    <!-- Favicon dengan fallback ke thumbnail Google Drive -->
+    <link
+        id="site-favicon"
+        rel="icon"
+        type="image/png"
+        href="https://drive.google.com/uc?export=view&id=1WAVvYUv6DuUg5abKbvhK7SYWfbSvd35l"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts Inter & Orbitron -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Konfigurasi tema Tailwind CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            cyan: '#00f2fe',
+                            blue: '#4facfe',
+                            purple: '#7f00ff',
+                            darkBg: '#090d16',
+                            cardBg: '#111827',
+                            cardBorder: '#1f2937'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom CSS untuk tema gelap neon dan kartu interaktif -->
+    <style>
+        body {
+            background-color: #070a12;
+            color: #e2e8f0;
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+        }
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+        }
+        .neon-text-purple {
+            text-shadow: 0 0 10px rgba(127, 0, 255, 0.6);
+        }
+        .tech-card {
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(15, 23, 42, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .tech-card:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.3);
+        }
+        .active-tab {
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: #090d16 !important;
+            font-weight: 800;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+        .pulse-glow {
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 242, 254, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-slate-900">
+
+    <!-- ==================== TOP HEADER / NAVBAR ==================== -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo (Header) dengan fallback berlapis -->
+                <div
+                    role="button"
+                    tabindex="0"
+                    aria-label="Kembali ke Beranda iPMan"
+                    class="flex items-center space-x-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-xl p-1"
+                    onclick="switchTab('beranda')"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTab('beranda');}"
+                >
+                    <div class="relative w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center bg-slate-900 border border-cyan-500/40 shadow-lg shadow-cyan-500/20 shrink-0">
+                        <img
+                            id="header-logo-img"
+                            src="https://drive.google.com/uc?export=view&id=1WAVvYUv6DuUg5abKbvhK7SYWfbSvd35l"
+                            alt="Logo iPMan Powered by Starlite"
+                            class="w-full h-full object-contain p-1"
+                            onerror="handleLogoError(this, 'header-logo-fallback')"
+                        />
+                        <span
+                            id="header-logo-fallback"
+                            class="hidden w-full h-full bg-gradient-to-tr from-cyan-500 via-blue-600 to-purple-600 items-center justify-center text-slate-950 font-tech font-black text-xl"
+                        >
+                            iP
+                        </span>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl font-tech font-black tracking-wider bg-gradient-to-r from-cyan-400 via-sky-300 to-purple-400 bg-clip-text text-transparent">
+                                iPMan
+                            </span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/60 uppercase tracking-widest">
+                                2 Gbps
+                            </span>
+                        </div>
+                        <span class="block text-[11px] text-slate-400 font-semibold tracking-wider">
+                            Powered by <strong class="text-slate-200">Starlite</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden lg:flex space-x-1.5 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800" aria-label="Navigasi Utama">
+                    <button id="nav-beranda" onclick="switchTab('beranda')" class="nav-btn px-4 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 text-slate-300 hover:text-white flex items-center space-x-2 active-tab cursor-pointer">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Beranda</span>
+                    </button>
+                    <button id="nav-layanan" onclick="switchTab('layanan')" class="nav-btn px-4 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-bolt text-amber-400"></i>
+                        <span>Paket 2 Gbps</span>
+                    </button>
+                    <button id="nav-keunggulan" onclick="switchTab('keunggulan')" class="nav-btn px-4 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>Keunggulan</span>
+                    </button>
+                    <button id="nav-quicktools" onclick="switchTab('quicktools')" class="nav-btn px-4 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-gauge-high text-cyan-400"></i>
+                        <span>Speedtest &amp; Tagihan</span>
+                    </button>
+                    <button id="nav-tentang" onclick="switchTab('tentang')" class="nav-btn px-4 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Tentang</span>
+                    </button>
+                    <button id="nav-hubungi" onclick="switchTab('hubungi')" class="nav-btn px-4 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 text-slate-300 hover:text-white flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-headset text-purple-400"></i>
+                        <span>Kontak CS</span>
+                    </button>
+                </nav>
+
+                <!-- Quick Payment Direct Button -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <a
+                        href="https://starliteindonesia.com/payment-billing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-extrabold rounded-xl text-xs transition-all flex items-center space-x-2 shadow-lg shadow-emerald-500/20"
+                    >
+                        <i class="fa-solid fa-credit-card text-sm"></i>
+                        <span>Bayar Tagihan</span>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="lg:hidden flex items-center">
+                    <button
+                        id="mobile-menu-btn"
+                        type="button"
+                        aria-label="Buka menu navigasi"
+                        aria-expanded="false"
+                        onclick="toggleMobileMenu()"
+                        class="text-slate-300 hover:text-white p-2.5 rounded-xl border border-slate-800 bg-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
+                    >
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-900/95 border-b border-slate-800 px-4 pt-3 pb-5 space-y-2">
+            <button type="button" onclick="switchTab('beranda'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 flex items-center space-x-3 cursor-pointer">
+                <i class="fa-solid fa-house w-5 text-cyan-400"></i>
+                <span>Beranda</span>
+            </button>
+            <button type="button" onclick="switchTab('layanan'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 flex items-center space-x-3 cursor-pointer">
+                <i class="fa-solid fa-bolt w-5 text-amber-400"></i>
+                <span>Paket 2 Gbps</span>
+            </button>
+            <button type="button" onclick="switchTab('keunggulan'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 flex items-center space-x-3 cursor-pointer">
+                <i class="fa-solid fa-microchip w-5 text-cyan-400"></i>
+                <span>Keunggulan Network</span>
+            </button>
+            <button type="button" onclick="switchTab('quicktools'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 flex items-center space-x-3 cursor-pointer">
+                <i class="fa-solid fa-gauge-high w-5 text-cyan-400"></i>
+                <span>Speedtest &amp; Bayar Tagihan</span>
+            </button>
+            <button type="button" onclick="switchTab('tentang'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 flex items-center space-x-3 cursor-pointer">
+                <i class="fa-solid fa-shield-halved w-5 text-cyan-400"></i>
+                <span>Tentang iPMan</span>
+            </button>
+            <button type="button" onclick="switchTab('hubungi'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 flex items-center space-x-3 cursor-pointer">
+                <i class="fa-solid fa-headset w-5 text-purple-400"></i>
+                <span>Kontak Lengkap</span>
+            </button>
+            <div class="pt-2 grid grid-cols-2 gap-2">
+                <a href="https://starliteindonesia.com/payment-billing" target="_blank" rel="noopener noreferrer" class="text-center py-2.5 px-3 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs">
+                    <i class="fa-solid fa-credit-card mr-1"></i> Tagihan
+                </a>
+                <a href="https://wa.me/6281918680717?text=Halo%20Samuel%20TechSupport%20iPMan,%20saya%20butuh%20bantuan%20kendala%20jaringan" target="_blank" rel="noopener noreferrer" class="text-center py-2.5 px-3 bg-sky-500 text-slate-950 font-bold rounded-xl text-xs">
+                    <i class="fa-brands fa-whatsapp mr-1"></i> TechSupport
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== QUICK ACTIONS BANNER ==================== -->
+    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800 py-3 px-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center space-x-2 text-slate-300">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                </span>
+                <span>Network Status: <strong class="text-cyan-400 font-tech">2 GBPS ULTRA HYPER-SPEED ONLINE</strong></span>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <a href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 text-slate-400 flex items-center space-x-1 transition">
+                    <i class="fa-solid fa-gauge text-cyan-400"></i>
+                    <span>Speedtest (Wi-Fi 5G)</span>
+                </a>
+                <span class="text-slate-700">|</span>
+                <a href="https://starliteindonesia.com/payment-billing" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 text-slate-400 flex items-center space-x-1 transition">
+                    <i class="fa-solid fa-receipt text-emerald-400"></i>
+                    <span>Login Payment Portal</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN DASHBOARD CONTENT AREA ==================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- SECTION 1: BERANDA / HERO DASHBOARD -->
+        <section id="section-beranda" class="tab-content transition-all duration-500">
+            <!-- Hero Tech Card -->
+            <div class="relative rounded-3xl p-8 sm:p-12 overflow-hidden border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl mb-10">
+                <div class="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold">
+                            <i class="fa-solid fa-bolt-lightning text-amber-400"></i>
+                            <span>Single Speed Plan &bull; Ultra Performance</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-tech font-black tracking-tight text-white leading-tight">
+                            Koneksi Super Fast <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-purple-400 bg-clip-text text-transparent">2 Gbps</span> Tanpa Kompromi.
+                        </h1>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Nikmati satu-satunya layanan internet fiber optik berkecepatan <strong>2 Gbps</strong> dengan tarif paling terjangkau hanya <strong>Rp 225.000 / bulan</strong> (belum PPN 11%). Bebas FUP, ultra-low latency, dan terhubung langsung ke jaringan Wi-Fi 5G.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <button type="button" onclick="switchTab('layanan')" class="px-6 py-3.5 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-black rounded-xl text-sm transition-all shadow-lg shadow-cyan-500/25 flex items-center space-x-2 cursor-pointer">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Lihat Paket 2 Gbps</span>
+                            </button>
+                            <a href="https://starliteindonesia.com/payment-billing" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-sm border border-slate-700 transition-all flex items-center space-x-2">
+                                <i class="fa-solid fa-credit-card text-emerald-400"></i>
+                                <span>Bayar Tagihan (Starlite)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Speed & Price Highlight Badge Card -->
+                    <div class="lg:col-span-5">
+                        <div class="tech-card rounded-2xl p-6 sm:p-8 border border-slate-800 text-center relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-amber-600 text-slate-950 text-[10px] font-black px-4 py-1 rounded-bl-xl uppercase tracking-wider">
+                                Recommended
+                            </div>
+                            <div class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">Eksklusif Speed</div>
+                            <div class="text-4xl sm:text-5xl font-tech font-black text-cyan-400 neon-text-cyan mb-2">2 GBPS</div>
+                            <div class="text-slate-300 text-xs mb-4">Wi-Fi 5G Dedicated Broadband</div>
+
+                            <div class="py-3 px-4 bg-slate-900/80 rounded-xl border border-slate-800 mb-6">
+                                <div class="text-xs text-slate-400">Harga Paket Dasar</div>
+                                <div class="text-2xl font-black text-white">Rp 225.000 <span class="text-xs font-normal text-slate-400">/bln</span></div>
+                                <div class="text-[11px] text-amber-400/90 mt-1">*Belum termasuk PPN 11% (Nett: Rp 249.750)</div>
+                            </div>
+
+                            <a href="https://wa.me/6289616115948?text=Halo%20Yovy%20Sales%20iPMan,%20saya%20ingin%20pasang%20layanan%202%20Gbps%20Rp.225.000" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl text-sm transition-all flex items-center justify-center space-x-2 shadow-lg shadow-cyan-500/20">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Daftar Sekarang (Sales Yovy)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Direct Access Hub Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+                <!-- Quick Card 1: Speedtest -->
+                <div class="tech-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-cyan-500/10 rounded-xl border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl mb-4">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">Cek Kecepatan</h3>
+                        <p class="text-slate-400 text-xs mb-4">Uji bandwidth 2 Gbps Anda melalui Speedtest Official.</p>
+                        <div class="bg-slate-900 p-2.5 rounded-lg text-[11px] text-amber-300 border border-slate-800 mb-4">
+                            <i class="fa-solid fa-wifi mr-1"></i> Pastikan terhubung ke <strong>Wifi-5G iPMan</strong>.
+                        </div>
+                    </div>
+                    <a href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 font-bold rounded-xl text-xs transition text-center block">
+                        Buka Speedtest.net <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Quick Card 2: Billing & Layanan -->
+                <div class="tech-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl mb-4">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">Billing &amp; Layanan</h3>
+                        <p class="text-slate-400 text-xs mb-4">Pertanyaan mengenai paket, billing, dan administrasi.</p>
+                        <div class="text-xs text-slate-300 font-mono mb-4 bg-slate-900 p-2 rounded border border-slate-800">
+                            <strong>PIC Billing:</strong> 0822-5865-9397
+                        </div>
+                    </div>
+                    <a href="https://wa.me/6282258659397?text=Halo%20Admin%20Billing%20iPMan,%20saya%20ingin%20menanyakan%20perihal%20billing%20layanan" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-slate-800 hover:bg-purple-500 hover:text-slate-950 text-purple-400 font-bold rounded-xl text-xs transition text-center block">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Hubungi Billing WA
+                    </a>
+                </div>
+
+                <!-- Quick Card 3: Pembayaran Tagihan -->
+                <div class="tech-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-500/10 rounded-xl border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl mb-4">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">Bayar Tagihan</h3>
+                        <p class="text-slate-400 text-xs mb-4">Login dengan nomor HP terdaftar untuk bayar tagihan online.</p>
+                        <div class="text-[11px] text-emerald-300 mb-4 bg-slate-900 p-2 rounded border border-slate-800">
+                            <strong>Portal:</strong> starliteindonesia.com
+                        </div>
+                    </div>
+                    <a href="https://starliteindonesia.com/payment-billing" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition text-center block">
+                        Login Payment Portal <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Features Metric Banner -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-slate-900/60 rounded-2xl border border-slate-800 text-center">
+                <div class="p-4">
+                    <div class="text-3xl font-tech font-black text-cyan-400 mb-1">2 GBPS</div>
+                    <div class="text-xs text-slate-400">Max Bandwidth Speed</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-tech font-black text-emerald-400 mb-1">99.9%</div>
+                    <div class="text-xs text-slate-400">Uptime Reliability</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-tech font-black text-amber-400 mb-1">&lt; 5 ms</div>
+                    <div class="text-xs text-slate-400">Ultra-Low Latency</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-tech font-black text-purple-400 mb-1">24 / 7</div>
+                    <div class="text-xs text-slate-400">Technical Support</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PAKET & LAYANAN (SINGLE 2 GBPS PLAN) -->
+        <section id="section-layanan" class="tab-content hidden transition-all duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold rounded-full uppercase tracking-wider">
+                    Official Plan
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-tech font-black text-white mt-3 mb-2">Paket Internet iPMan Powered by Starlite</h2>
+                <p class="text-slate-400 text-sm">Satu paket serba cepat untuk semua kebutuhan. Tanpa pembagian kelas, tanpa kerumitan pilihan.</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+                <div class="tech-card rounded-3xl p-8 sm:p-10 border-2 border-cyan-500/60 relative overflow-hidden shadow-2xl">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+                        <div>
+                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 font-extrabold text-xs rounded-full border border-cyan-500/30">
+                                ULTIMATE SINGLE SPEED
+                            </span>
+                            <h3 class="text-3xl sm:text-4xl font-tech font-black text-white mt-2">iPMan 2 GBPS</h3>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl sm:text-4xl font-black text-cyan-400">Rp 225.000</div>
+                            <div class="text-xs text-slate-400">/ bulan (Belum PPN 11%)</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 mb-6 flex items-center justify-between text-xs">
+                        <span class="text-slate-300"><i class="fa-solid fa-calculator text-cyan-400 mr-2"></i> Total Nett Tagihan (Inc. PPN 11%):</span>
+                        <span class="font-bold text-emerald-400 text-sm font-mono">Rp 249.750 / bulan</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 text-sm">
+                        <div class="flex items-center space-x-3 text-slate-200">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+                            <span>Kecepatan Hingga <strong>2 Gbps</strong></span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-slate-200">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+                            <span>Download &amp; Upload Symmetrical</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-slate-200">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+                            <span>Optimized untuk <strong>Wi-Fi 5G</strong></span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-slate-200">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+                            <span>Unlimited Tanpa FUP</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-slate-200">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+                            <span>Support Gaming Low Latency</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-slate-200">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+                            <span>Full Fiber Optic Starlite Network</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="https://wa.me/6289616115948?text=Halo%20Yovy%20Sales%20iPMan,%20saya%20ingin%20mendaftar%20paket%202%20Gbps%20Rp.225.000" target="_blank" rel="noopener noreferrer" class="py-4 px-6 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-black rounded-xl text-center text-sm transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center space-x-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Daftar via Sales (Yovy)</span>
+                        </a>
+                        <a href="https://wa.me/628999999767?text=Halo%20Bambang%20Marketing%20iPMan,%20saya%20butuh%20info%20pemasangan%20paket%202Gbps" target="_blank" rel="noopener noreferrer" class="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-center text-sm transition-all border border-slate-700 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-user-tie text-cyan-400"></i>
+                            <span>Tanya Marketing (Bambang)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KEUNGGULAN NETWORK -->
+        <section id="section-keunggulan" class="tab-content hidden transition-all duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-tech font-black text-white mb-3">Keunggulan iPMan Network</h2>
+                <p class="text-slate-400 text-sm">Mengapa koneksi 2 Gbps dari iPMan Powered by Starlite menjadi pilihan terbaik Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="tech-card p-8 rounded-2xl border border-slate-800">
+                    <div class="w-14 h-14 bg-cyan-500/10 rounded-xl border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-6">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Ultra Bandwidth 2 Gbps</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Kapasitas bandwidth raksasa hingga 2 Gbps memastikan seluruh anggota keluarga atau perangkat kantor dapat online bersamaan tanpa buffering.
+                    </p>
+                </div>
+
+                <div class="tech-card p-8 rounded-2xl border border-slate-800">
+                    <div class="w-14 h-14 bg-amber-500/10 rounded-xl border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mb-6">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Wi-Fi 5G Compatible</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Dioptimalkan penuh untuk frekuensi Wi-Fi 5G untuk mentransfer sinyal nirkabel ultra cepat dengan interferensi minimal.
+                    </p>
+                </div>
+
+                <div class="tech-card p-8 rounded-2xl border border-slate-800">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-xl border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl mb-6">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Infrastruktur Starlite</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Didukung langsung oleh jaringan backbone fiber optic Starlite yang stabil, handal, dan berstandar industri tinggi.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 rounded-2xl border border-cyan-500/30 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-cyan-500 text-slate-950 font-black rounded-xl flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Tips Cek Kecepatan Optimal</h4>
+                        <p class="text-xs text-slate-300">Saat melakukan pengujian di <strong>Speedtest.net</strong>, pastikan HP/Gadget Anda terhubung ke frekuensi <strong>Wifi-5G iPMan</strong> untuk hasil maksimal.</p>
+                    </div>
+                </div>
+                <a href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer" class="shrink-0 px-5 py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold rounded-xl text-xs transition">
+                    Uji Speedtest Sekarang
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION 4: SPEEDTEST & BILLING PORTAL -->
+        <section id="section-quicktools" class="tab-content hidden transition-all duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl font-tech font-black text-white mb-3">Pusat Layanan &amp; Pembayaran</h2>
+                <p class="text-slate-400 text-sm">Akses langsung ke pengujian kecepatan dan portal pembayaran resmi Starlite.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="tech-card rounded-3xl p-8 border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 font-bold text-xs rounded-full border border-cyan-500/30">SPEED TEST 2 GBPS</span>
+                            <i class="fa-solid fa-gauge-high text-3xl text-cyan-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Uji Kecepatan Jaringan</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Gunakan portal Speedtest.net untuk mengukur kecepatan unduh dan unggah jaringan fiber 2 Gbps Anda.
+                        </p>
+
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2 mb-6">
+                            <div class="text-xs font-bold text-amber-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Panduan Pengujian:</div>
+                            <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                                <li>Pastikan HP/Laptop terhubung ke SSID <strong>Wifi-5G iPMan</strong>.</li>
+                                <li>Matikan aplikasi pengunduh latar belakang saat tes berjalan.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold rounded-xl text-center text-sm transition">
+                        Buka https://www.speedtest.net <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <div class="tech-card rounded-3xl p-8 border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full border border-emerald-500/30">PAYMENT &amp; BILLING</span>
+                            <i class="fa-solid fa-receipt text-3xl text-emerald-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Pembayaran Tagihan Layanan</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Untuk melanjutkan layanan, silakan login menggunakan nomor HP terdaftar Anda di sistem portal pembayaran Starlite.
+                        </p>
+
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2 mb-6">
+                            <div class="text-xs font-bold text-emerald-300"><i class="fa-solid fa-shield-halved mr-1"></i> Info Tagihan Bulanan:</div>
+                            <div class="text-[11px] text-slate-300">Harga Paket: <strong>Rp 225.000</strong> (Belum PPN 11%)</div>
+                            <div class="text-[11px] text-slate-300">Total Nett Tagihan: <strong class="text-emerald-400">Rp 249.750 / bulan</strong></div>
+                        </div>
+                    </div>
+
+                    <a href="https://starliteindonesia.com/payment-billing" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-center text-sm transition">
+                        Masuk Ke Portal Billing <i class="fa-solid fa-lock ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: TENTANG KAMI -->
+        <section id="section-tentang" class="tab-content hidden transition-all duration-500">
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="text-center">
+                    <span class="px-3 py-1 bg-purple-500/20 text-purple-300 font-bold text-xs rounded-full border border-purple-500/30">ABOUT US</span>
+                    <h2 class="text-3xl font-tech font-black text-white mt-3">Tentang iPMan Powered by Starlite</h2>
+                </div>
+
+                <div class="tech-card p-8 rounded-3xl border border-slate-800 space-y-4 text-slate-300 text-sm leading-relaxed">
+                    <p>
+                        <strong>iPMan Powered by Starlite</strong> adalah penyedia jasa koneksi internet serat optik (Fiber-to-the-Home &amp; Business) yang berfokus pada penghadiran kecepatan ekstrem dengan tarif terjangkau bagi masyarakat Indonesia.
+                    </p>
+                    <p>
+                        Dengan mengusung komitmen kecepatan <strong>2 Gbps</strong> seharga <strong>Rp 225.000/bulan</strong> (belum PPN 11%), kami menghapus hambatan bandwidth bagi pengguna rumah tangga maupun usaha yang memerlukan koneksi stabil tanpa batas kuota (Truly Unlimited).
+                    </p>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 text-xs text-slate-400">
+                        <strong class="text-white">iPMan by Starlite Commitment:</strong> Transparansi biaya, infrastruktur kabel serat optik andal, serta dukungan teknisi yang siap sedia membantu kendala Anda.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: HUBUNGI KAMI (DIRECTORY KONTAK LENGKAP) -->
+        <section id="section-hubungi" class="tab-content hidden transition-all duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="px-3 py-1 bg-purple-500/20 text-purple-300 font-bold text-xs rounded-full border border-purple-500/30">CONTACT DIRECTORY</span>
+                <h2 class="text-3xl font-tech font-black text-white mt-3 mb-2">Kontak Layanan Pelanggan iPMan</h2>
+                <p class="text-slate-400 text-sm">Silakan hubungi tim representative iPMan Powered by Starlite sesuai kebutuhan Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                <div class="tech-card p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-4">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">PiC Marketing</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Bambang</h3>
+                        <p class="text-xs text-slate-400 mb-4">Informasi promosi, kemitraan, dan pemasaran produk.</p>
+                        <div class="text-xs font-mono text-cyan-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 mb-6">
+                            +62 899-9999-767
+                        </div>
+                    </div>
+                    <a href="https://wa.me/628999999767?text=Halo%20Pak%20Bambang%20Marketing%20iPMan,%20saya%20ingin%20bertanya%20mengenai%20layanan%20iPMan" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-slate-800 hover:bg-blue-500 hover:text-slate-950 text-blue-400 font-bold rounded-xl text-xs transition text-center block">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Chat Marketing WA
+                    </a>
+                </div>
+
+                <div class="tech-card p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-cyan-500/10 rounded-xl border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl mb-4">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </div>
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">PIC Sales</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Yovy</h3>
+                        <p class="text-xs text-slate-400 mb-4">Pendaftaran pelanggan baru &amp; pemasangan paket 2 Gbps.</p>
+                        <div class="text-xs font-mono text-cyan-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 mb-6">
+                            +62 896 1611 5948
+                        </div>
+                    </div>
+                    <a href="https://wa.me/6289616115948?text=Halo%20Pak%20Yovy%20Sales%20iPMan,%20saya%20ingin%20pasang%20layanan%20internet%202%20Gbps" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold rounded-xl text-xs transition text-center block">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Daftar Pemasangan
+                    </a>
+                </div>
+
+                <div class="tech-card p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl mb-4">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Customer Support (WA)</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Sari</h3>
+                        <p class="text-xs text-slate-400 mb-4">Layanan informasi umum dan bantuan pelanggan.</p>
+                        <div class="text-xs font-mono text-cyan-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 mb-6">
+                            +62 8170-249-500
+                        </div>
+                    </div>
+                    <a href="https://wa.me/628170249500?text=Halo%20Bu%20Sari%20Customer%20Support%20iPMan,%20saya%20ingin%20bertanya%20informasi%20layanan" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-slate-800 hover:bg-purple-500 hover:text-slate-950 text-purple-400 font-bold rounded-xl text-xs transition text-center block">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Chat Customer Support
+                    </a>
+                </div>
+
+                <div class="tech-card p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-4">
+                            <i class="fa-solid fa-wrench"></i>
+                        </div>
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Technical Support (WA)</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Samuel</h3>
+                        <p class="text-xs text-slate-400 mb-4">Lapor gangguan, masalah koneksi, &amp; kendala router.</p>
+                        <div class="text-xs font-mono text-cyan-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 mb-6">
+                            +62 819-1868-0717
+                        </div>
+                    </div>
+                    <a href="https://wa.me/6281918680717?text=Halo%20Pak%20Samuel%20TechSupport%20iPMan,%20saya%20mengalami%20kendala%20jaringan" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs transition text-center block">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Lapor Gangguan WA
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-8 max-w-4xl mx-auto p-6 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Billing &amp; Layanan Direct Line</h4>
+                        <p class="text-xs text-slate-400">Pertanyaan tagihan atau perpanjangan akun: <strong class="text-emerald-400 font-mono">0822-5865-9397</strong></p>
+                    </div>
+                </div>
+                <a href="https://wa.me/6282258659397?text=Halo%20Admin%20Billing%20iPMan,%20saya%20ingin%20menanyakan%20perihal%20tagihan" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition">
+                    <i class="fa-brands fa-whatsapp mr-1"></i> Chat Billing
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-slate-950 text-slate-500 py-8 border-t border-slate-900 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <!-- Footer Logo dengan fallback berlapis -->
+                <div class="relative w-9 h-9 rounded-lg overflow-hidden flex items-center justify-center bg-slate-900 border border-cyan-500/30 shrink-0">
+                    <img
+                        id="footer-logo-img"
+                        src="https://drive.google.com/uc?export=view&id=1WAVvYUv6DuUg5abKbvhK7SYWfbSvd35l"
+                        alt="Logo iPMan Footer"
+                        class="w-full h-full object-contain p-0.5"
+                        onerror="handleLogoError(this, 'footer-logo-fallback')"
+                    />
+                    <span
+                        id="footer-logo-fallback"
+                        class="hidden w-full h-full bg-cyan-500 text-slate-950 font-tech font-black items-center justify-center text-sm"
+                    >
+                        iP
+                    </span>
+                </div>
+                <div>
+                    <span class="text-slate-200 font-bold">iPMan Powered by Starlite</span>
+                    <span class="block text-[11px] text-slate-500">Ultra Fast 2 Gbps Internet Provider</span>
+                </div>
+            </div>
+
+            <div class="text-center sm:text-right text-slate-500">
+                <p>&copy; 2026 iPMan by Starlite. Terima kasih sudah percaya pakai layanan iPMan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT CONTROLLER ==================== -->
+    <script>
+        const DRIVE_FILE_ID = '1WAVvYUv6DuUg5abKbvhK7SYWfbSvd35l';
+        const PRIMARY_LOGO_URL = `https://drive.google.com/uc?export=view&id=${DRIVE_FILE_ID}`;
+        const FALLBACK_THUMBNAIL_URL = `https://drive.google.com/thumbnail?id=${DRIVE_FILE_ID}&sz=w256`;
+
+        /**
+         * Menangani kegagalan pemuatan gambar logo:
+         * 1) Mencoba URL thumbnail Google Drive terlebih dahulu.
+         * 2) Jika masih gagal (mis. diblokir CORS/browser/izin file), sembunyikan <img>
+         *    dan tampilkan badge fallback 'iP'.
+         */
+        function handleLogoError(imgElement, fallbackId) {
+            try {
+                if (!imgElement) return;
+                if (!imgElement.dataset.triedThumbnail) {
+                    imgElement.dataset.triedThumbnail = 'true';
+                    imgElement.src = FALLBACK_THUMBNAIL_URL;
+                    return;
+                }
+                imgElement.classList.add('hidden');
+                const fallbackEl = document.getElementById(fallbackId);
+                if (fallbackEl) {
+                    fallbackEl.classList.remove('hidden');
+                    fallbackEl.classList.add('flex');
+                }
+            } catch (err) {
+                if (imgElement) imgElement.classList.add('hidden');
+                const fallbackEl = document.getElementById(fallbackId);
+                if (fallbackEl) {
+                    fallbackEl.classList.remove('hidden');
+                    fallbackEl.classList.add('flex');
+                }
+            }
+        }
+
+        // Memastikan favicon juga memiliki fallback ke thumbnail Google Drive jika diperlukan
+        (function initFaviconFallback() {
+            try {
+                const favicon = document.getElementById('site-favicon');
+                if (!favicon) return;
+                const probe = new Image();
+                probe.src = PRIMARY_LOGO_URL;
+                probe.onerror = function () {
+                    favicon.href = FALLBACK_THUMBNAIL_URL;
+                };
+            } catch (err) {
+                // Abaikan error favicon secara aman
+            }
+        })();
+
+        // Tab Navigation switching
+        function switchTab(tabId) {
+            try {
+                const sections = document.querySelectorAll('.tab-content');
+                sections.forEach((sec) => sec.classList.add('hidden'));
+
+                const targetSection = document.getElementById('section-' + tabId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                }
+
+                const navButtons = document.querySelectorAll('.nav-btn');
+                navButtons.forEach((btn) => btn.classList.remove('active-tab'));
+
+                const activeNav = document.getElementById('nav-' + tabId);
+                if (activeNav) {
+                    activeNav.classList.add('active-tab');
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (err) {
+                // Tangani error navigasi tab secara aman
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            try {
+                const menu = document.getElementById('mobile-menu');
+                const btn = document.getElementById('mobile-menu-btn');
+                if (!menu) return;
+                const willOpen = menu.classList.contains('hidden');
+                menu.classList.toggle('hidden');
+                if (btn) {
+                    btn.setAttribute('aria-expanded', String(willOpen));
+                }
+            } catch (err) {
+                // Tangani error toggle menu mobile secara aman
+            }
+        }
+    </script>
+</body>
+</html>
